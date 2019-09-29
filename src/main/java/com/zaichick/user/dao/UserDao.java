@@ -19,12 +19,7 @@ public class UserDao {
         dynamoDBMapper.save(user);
     }
 
-    public void getById(String id) {
-
-        User user = User.Builder.create()
-                .withId(id)
-                .build();
-
-        dynamoDBMapper.load(user);
+    public User getById(String id) {
+        return dynamoDBMapper.load(User.class, id);
     }
 }
