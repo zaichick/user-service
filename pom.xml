@@ -7,7 +7,7 @@
 
     <name>User Service</name>
     <groupId>com.zaichick.user</groupId>
-    <artifactId>dhi-zaichick-user-service</artifactId>
+    <artifactId>zaichick-user-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
