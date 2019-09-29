@@ -1,4 +1,5 @@
 package com.zaichick.user.entrypoint;
+import java.util.UUID;
 
 import com.amazonaws.serverless.proxy.model.AwsProxyRequest;
 import com.amazonaws.serverless.proxy.model.AwsProxyResponse;
@@ -21,6 +22,8 @@ public class CreateUser {
     public AwsProxyResponse handleRequest(AwsProxyRequest awsProxyRequest) throws IOException {
 
         User user = objectMapper.readValue(awsProxyRequest.getBody(), User.class);
+        String uuid = UUID.randomUUID().toString();
+        user.setId(uuid);
         userDao.save(user);
 
         String bodyAsJsonString = objectMapper.writeValueAsString(user);
