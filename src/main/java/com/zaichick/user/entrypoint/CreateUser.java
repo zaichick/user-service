@@ -11,18 +11,23 @@ import java.io.IOException;
 public class CreateUser {
 
     private final UserDao userDao;
+    private final ObjectMapper objectMapper;
 
     public CreateUser() {
         userDao = new UserDao();
+        objectMapper = new ObjectMapper();
     }
 
     public AwsProxyResponse handleRequest(AwsProxyRequest awsProxyRequest) throws IOException {
 
-        User user = new ObjectMapper().readValue(awsProxyRequest.getBody(), User.class);
+        User user = objectMapper.readValue(awsProxyRequest.getBody(), User.class);
         userDao.save(user);
 
+        String bodyAsJsonString = objectMapper.writeValueAsString(user);
         AwsProxyResponse awsProxyResponse = new AwsProxyResponse();
         awsProxyResponse.setStatusCode(200);
+        awsProxyRequest.setBody(bodyAsJsonString);
+
         return awsProxyResponse;
     }
 }
