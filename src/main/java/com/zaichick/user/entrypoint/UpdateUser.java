@@ -24,6 +24,7 @@ public class UpdateUser {
         if (oldUser == null) {
             throw new RuntimeException("user not found");
         }
+        user.setCreateDt(oldUser.getCreateDt());
         userDao.save(user);
         String bodyAsJsonString = objectMapper.writeValueAsString(user);
         AwsProxyResponse awsProxyResponse = new AwsProxyResponse();
