@@ -31,9 +31,6 @@ public class CreateUser {
         awsProxyResponse.setStatusCode(200);
         awsProxyRequest.setBody(bodyAsJsonString);
 
-
-
-
         return awsProxyResponse;
     }
 }
