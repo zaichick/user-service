@@ -1,4 +1,5 @@
 package com.zaichick.user.entrypoint;
+import java.util.Map;
 import java.util.UUID;
 
 import com.amazonaws.serverless.proxy.model.AwsProxyRequest;
@@ -20,8 +21,13 @@ public class CreateUser {
     }
 
     public AwsProxyResponse handleRequest(AwsProxyRequest awsProxyRequest) throws IOException {
-
         User user = objectMapper.readValue(awsProxyRequest.getBody(), User.class);
+
+        Map<String, String> queryParamMap = awsProxyRequest.getQueryStringParameters();
+        String checkEmail = queryParamMap.get("Email");
+        if (checkEmail.equals(user.getEmail())){
+            throw new RuntimeException("Duplicate email");
+        }
         String uuid = UUID.randomUUID().toString();
         user.setId(uuid);
         userDao.save(user);
