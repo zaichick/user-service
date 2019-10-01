@@ -1,6 +1,4 @@
 package com.zaichick.user.entrypoint;
-import java.util.Map;
-import java.util.UUID;
 
 import com.amazonaws.serverless.proxy.model.AwsProxyRequest;
 import com.amazonaws.serverless.proxy.model.AwsProxyResponse;
@@ -9,6 +7,8 @@ import com.zaichick.user.dao.UserDao;
 import com.zaichick.user.domain.User;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 
 public class CreateUser {
 
@@ -23,19 +23,26 @@ public class CreateUser {
     public AwsProxyResponse handleRequest(AwsProxyRequest awsProxyRequest) throws IOException {
         User user = objectMapper.readValue(awsProxyRequest.getBody(), User.class);
 
-        Map<String, String> queryParamMap = awsProxyRequest.getQueryStringParameters();
-        String checkEmail = queryParamMap.get("Email");
-        if (checkEmail.equals(user.getEmail())){
-            throw new RuntimeException("Duplicate email");
+        String email = user.getEmail();
+        List<User> users = userDao.findUserByEmailAddress(email);
+
+        if (users != null && !users.isEmpty()) {
+
+            AwsProxyResponse awsProxyResponse = new AwsProxyResponse();
+            awsProxyResponse.setStatusCode(400);
+            awsProxyResponse.setBody("Duplicate email");
+
+            return awsProxyResponse;
         }
+
         String uuid = UUID.randomUUID().toString();
         user.setId(uuid);
         userDao.save(user);
 
         String bodyAsJsonString = objectMapper.writeValueAsString(user);
         AwsProxyResponse awsProxyResponse = new AwsProxyResponse();
-        awsProxyResponse.setStatusCode(200);
-        awsProxyRequest.setBody(bodyAsJsonString);
+        awsProxyResponse.setStatusCode(201);
+        awsProxyResponse.setBody(bodyAsJsonString);
 
         return awsProxyResponse;
     }
