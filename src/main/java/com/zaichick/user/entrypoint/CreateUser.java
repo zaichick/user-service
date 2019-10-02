@@ -5,29 +5,31 @@ import com.amazonaws.serverless.proxy.model.AwsProxyResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zaichick.user.dao.UserDao;
 import com.zaichick.user.domain.User;
+import com.zaichick.user.validator.CreateUserVerify;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 public class CreateUser {
 
     private final UserDao userDao;
     private final ObjectMapper objectMapper;
+    private final CreateUserVerify createUserVerify;
 
     public CreateUser() {
         userDao = new UserDao();
         objectMapper = new ObjectMapper();
+        createUserVerify = new CreateUserVerify(userDao);
     }
 
     public AwsProxyResponse handleRequest(AwsProxyRequest awsProxyRequest) throws IOException {
         User user = objectMapper.readValue(awsProxyRequest.getBody(), User.class);
 
         String email = user.getEmail();
-        List<User> users = userDao.findUserByEmailAddress(email);
 
-        if (users != null && !users.isEmpty()) {
-
+        try {
+            createUserVerify.verifyByEmail(email);
+        } catch (Exception e) {
             AwsProxyResponse awsProxyResponse = new AwsProxyResponse();
             awsProxyResponse.setStatusCode(400);
             awsProxyResponse.setBody("Duplicate email");
