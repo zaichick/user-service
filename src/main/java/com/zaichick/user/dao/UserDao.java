@@ -7,7 +7,11 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.zaichick.user.domain.User;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class UserDao {
 
@@ -34,6 +38,28 @@ public class UserDao {
 
         return dynamoDBMapper.query(User.class, new DynamoDBQueryExpression<User>()
                 .withIndexName("email-index")
+                .withConsistentRead(false)
+                .withHashKeyValues(user));
+    }
+
+    public List<User> findUserByFnameLnameDOB(String firstName, String lastName, String dateOfBirth) {
+        Calendar cal = Calendar.getInstance();
+        //dont think format is correct
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        try {
+            cal.setTime(sdf.parse(dateOfBirth));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        User user = User.Builder.create()
+                .withFirstName(firstName)
+                .withLastName(lastName)
+                .withDateOfBirth(cal)
+                .build();
+
+        return dynamoDBMapper.query(User.class, new DynamoDBQueryExpression<User>()
+                .withIndexName("firstname-lastname-DOB-index")
                 .withConsistentRead(false)
                 .withHashKeyValues(user));
     }
