@@ -29,6 +29,12 @@
         <jackson-core.version>2.9.0</jackson-core.version>
         <jackson-databind.version>2.9.0</jackson-databind.version>
         <jackson-annotations.version>2.9.0</jackson-annotations.version>
+        <aws-java-sdk-ssm.version>1.11.472</aws-java-sdk-ssm.version>
+
+        <!--db-->
+        <spring-jdbc.version>5.1.5.RELEASE</spring-jdbc.version>
+        <commons-dbcp.version>1.4</commons-dbcp.version>
+        <postgresql.version>42.2.5</postgresql.version>
 
         <!-- tests -->
         <junit.version>4.12</junit.version>
@@ -72,6 +78,31 @@
                 <artifactId>commons-lang3</artifactId>
                 <version>3.3.1</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-jdbc</artifactId>
+                <version>${spring-jdbc.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-dbcp</groupId>
+                <artifactId>commons-dbcp</artifactId>
+                <version>${commons-dbcp.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.amazonaws</groupId>
+                <artifactId>aws-java-sdk-ssm</artifactId>
+                <version>${aws-java-sdk-ssm.version}</version>
+            </dependency>
+
             <!-- tests -->
 
             <dependency>
