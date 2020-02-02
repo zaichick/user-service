@@ -32,5 +32,18 @@ public class FindUser {
         return awsProxyResponse;
     }
 
+    public AwsProxyResponse byNamesAndDOB(AwsProxyRequest awsProxyRequest) throws IOException {
+        Map<String, String> queryParamMap = awsProxyRequest.getQueryStringParameters();
+//        List<User> userByEmailFnameLnameDOB = userDao.findUserByFnameLnameDOB(queryParamMap.get("firstName", "lastName", "dateOfBirth"));
+        List<User> userByEmailFnameLnameDOB = userDao.findUserByFnameLnameDOB(queryParamMap.get("firstName"), queryParamMap.get("lastName"), queryParamMap.get("dateOfBirth"));
+
+        AwsProxyResponse awsProxyResponse = new AwsProxyResponse();
+        String responseBody = objectMapper.writeValueAsString(userByEmailFnameLnameDOB);
+        awsProxyResponse.setBody(responseBody);
+        awsProxyResponse.setStatusCode(200);
+
+        return awsProxyResponse;
+    }
+
 
 }
