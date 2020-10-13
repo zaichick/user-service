@@ -37,7 +37,7 @@
         <postgresql.version>42.2.5</postgresql.version>
 
         <!-- tests -->
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <mockito.version>2.21.0</mockito.version>
         <assertj-core.version>2.1.0</assertj-core.version>
 
