@@ -34,7 +34,7 @@
         <!--db-->
         <spring-jdbc.version>5.1.5.RELEASE</spring-jdbc.version>
         <commons-dbcp.version>1.4</commons-dbcp.version>
-        <postgresql.version>42.2.5</postgresql.version>
+        <postgresql.version>42.2.25</postgresql.version>
 
         <!-- tests -->
         <junit.version>4.12</junit.version>
