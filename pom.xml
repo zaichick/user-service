@@ -27,7 +27,7 @@
         <aws-serverless-java-container-core.version>1.1</aws-serverless-java-container-core.version>
         <aws-java-sdk-dynamodb.version>1.11.472</aws-java-sdk-dynamodb.version>
         <jackson-core.version>2.9.0</jackson-core.version>
-        <jackson-databind.version>2.9.0</jackson-databind.version>
+        <jackson-databind.version>2.13.4.1</jackson-databind.version>
         <jackson-annotations.version>2.9.0</jackson-annotations.version>
         <aws-java-sdk-ssm.version>1.11.472</aws-java-sdk-ssm.version>
 
